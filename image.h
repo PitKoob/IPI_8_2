@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <fstream>
 #include <cstdint>
+#include <sstream>
 
 class Image
 {
@@ -26,7 +27,7 @@ public:
   // Konstruktor: initialisiere Bild mit Groesse (width, height)
   // Alle Pixel sollen danach den Wert '0' haben.
   Image(unsigned int width, unsigned int height)
-    : width_(width),height_(height),data_(0)
+    : width_(width),height_(height),data_(width*height-1, 0)
   {}
 
   // Breite abfragen
@@ -54,12 +55,12 @@ public:
 
   // lesender Zugriff auf des Pixel an Position (x,y)
   PixelType operator()(int x, int y) const {
-    return data_[width_*(y-1)+x];
+    return data_[width_*(y-1)+x-1];
   }
 
   // Lese/Schreib-Zugriff auf des Pixel an Position (x,y)
   PixelType & operator()(int x, int y) {
-   & data_[width_*(y-1)+x];
+	return data_[width_*(y-1)+x-1];   	
   }
 };
 
@@ -68,13 +69,14 @@ public:
 // Dies ist der Fall, wenn die Bildgroessen uebereinstimmen und
 // alle Pixel die gleichen Werte haben.
 // Diese Funktion ist nuetzlich zum Testen der Bildklasse.
+
 bool operator==(Image const & im0, Image const & im1) {
 
 	if (im0.width() == im1.width() && im0.height() == im1.height())
 	{
   		for (int i = 1; i<=im0.width(); i++)
   		{
-  			for (int j = 1; i<= im0.height(); i++)
+  			for (int j = 1; j<= im0.height(); j++)
   			{
   				if (im0(i,j) != im1(i,j))
   				return false;
@@ -96,8 +98,18 @@ bool operator==(Image const & im0, Image const & im1) {
 // eine Variable vom Typ int in einen String umwandelt.
 std::string to_string(Image const & im) {
   std::string res;
-  // IHR CODE HIER
-  return res;
+  std::ostringstream s;
+  
+	for (int i = 1; i<=im.height(); i++)  {
+	
+  		for (int j = 1; j<= im.width(); j++)	{
+  	
+  			s << im(j,i)<< ' ';
+  		}
+  		s << '\n';
+  	}
+  	res = s.str();
+  	return res;
 }
 
 // Gib das Bild im PGM-Format in das File 'filename' aus.
@@ -180,8 +192,14 @@ Image readPGM(std::string const & filename) {
 
   // Pixeldaten in einer zweifach geschachtelten Schleife ueber
   // die Zeilen und Spalten einlesen.
-
-  // IHR CODE HIER
+	int current_value;
+	for (int i = 1; i<=width; i++)  {
+	
+  		for (int j = 1; j<=height; j++)	{
+  			pgm >> current_value;
+  			res(i,j) = current_value;
+  		}
+  	}
 
   return res;
 }

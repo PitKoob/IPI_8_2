@@ -4,19 +4,18 @@
 #include <fstream>
 #include <cstdint>
 #include "image.h"
+#include <iostream>
 
 int main()
 {
-	Image image1(1,1) = 10;
-	Image image2(1,1) = 10;
+	
+	Image image(4,3);
+	std::cout << to_string(image) << std::endl;
+	
+	image(4,3) = 1;
+	std::cout << to_string(image) << std::endl;
+	
+	std::cout << to_string(image) << std::endl;
 
-	if (image1 == image2) 
-	{
-		std::cout << "lul" << std::endl;
-	}
-	else 
-	{
-		std::cout << "nopenopenoep" << std::endl;
-	}
 	return 0;
 }

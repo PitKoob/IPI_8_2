@@ -193,11 +193,11 @@ Image readPGM(std::string const & filename) {
   // Pixeldaten in einer zweifach geschachtelten Schleife ueber
   // die Zeilen und Spalten einlesen.
 	int current_value;
-	for (int i = 1; i<=width; i++)  {
+	for (int i = 1; i<=height; i++)  {
 	
-  		for (int j = 1; j<=height; j++)	{
+  		for (int j = 1; j<=width; j++)	{
   			pgm >> current_value;
-  			res(i,j) = current_value;
+  			res(j,i) = current_value;
   		}
   	}
 
